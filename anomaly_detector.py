@@ -47,6 +47,8 @@ class AnomalyDetector:
         return (errors > threshold).astype(int)
 
     def generate_submission(self, test_ids, y_pred, output_path="submission.parquet"):
+        timestamp = pd.Timestamp.now().strftime("%Y%m%d-%H%M%S")
+        output_path = output_path.replace(".parquet", f"_{timestamp}.parquet")
         submission = pd.DataFrame({"id": test_ids[self.window_size:], "is_anomaly": y_pred})
         submission.to_parquet(output_path, index=False)
         print(f"✅ Saved submission to {output_path}")
