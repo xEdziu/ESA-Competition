@@ -50,8 +50,8 @@ class LSTMAutoencoder:
             **kwargs
         )
 
-    def predict(self, X):
-        return self.model.predict(X)
+    def predict(self, X, batch_size=32, verbose=1):
+        return self.model.predict(X, batch_size=batch_size, verbose=verbose)
 
     def save(self, path="autoencoder_model.keras"):
         # Create directory if it doesn't exist
