@@ -18,7 +18,7 @@ class AnomalyDetector:
         for i in range(0, len(X), batch_size):
             print(f"Processing batch {i // batch_size + 1}/{len(X) // batch_size + 1}")
             batch = X[i:i+batch_size]
-            X_pred = self.model.predict(batch, verbose=0)
+            X_pred = self.model.predict(batch, verbose=1)
             batch_errors = np.mean(np.mean((batch - X_pred) ** 2, axis=2), axis=1)
             errors.extend(batch_errors)
 
