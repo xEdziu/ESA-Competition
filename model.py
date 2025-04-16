@@ -1,6 +1,7 @@
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, LSTM, RepeatVector, TimeDistributed, Dense
 from tensorflow.keras.optimizers import Adam
+import os
 
 class LSTMAutoencoder:
     def __init__(self, window_size: int, n_channels: int):
@@ -53,6 +54,10 @@ class LSTMAutoencoder:
         return self.model.predict(X)
 
     def save(self, path="autoencoder_model.keras"):
+        # Create directory if it doesn't exist
+        directory = os.path.dirname(path)
+        if directory and not os.path.exists(directory):
+            os.makedirs(directory)
         self.model.save(path)
 
     def load_weights(self, path):
