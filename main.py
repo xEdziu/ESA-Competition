@@ -32,7 +32,7 @@ detector = AnomalyDetector(model_path=MODEL_PATH, window_size=WINDOW_SIZE, mode=
 
 # === TRAIN ERROR ANALYSIS ===
 print("🧠 Obliczanie błędów rekonstrukcji na zbiorze treningowym...")
-errors_train = detector.compute_reconstruction_errors(X_train)
+errors_train = detector.compute_reconstruction_errors(X_train, save_temp=True)
 detector.plot_error_distribution(errors_train)
 
 # === THRESHOLD ===
@@ -53,7 +53,7 @@ plt.show()
 
 # === METRYKI DLA X_TRAIN ===
 y_train_eval = y_train[WINDOW_SIZE:]  # wyrównanie z błędami
-y_pred_train = detector.detect_anomalies(errors_train, threshold)
+y_pred_train = detector.detect_anomalies(errors_train, threshold)[WINDOW_SIZE:]
 
 precision = precision_score(y_train_eval, y_pred_train)
 recall = recall_score(y_train_eval, y_pred_train)
