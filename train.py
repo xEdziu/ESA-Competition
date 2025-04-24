@@ -1,4 +1,4 @@
-from model import LSTMAutoencoder
+from model import LSTMAutoencoder, ConvLSTMAutoencoder
 from data_preprocessor import DataPreprocessor
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -35,7 +35,8 @@ print("Inf in y_train:", np.isinf(y_train).any())
 
 # Build model
 print("Budowanie modelu...")
-model = LSTMAutoencoder(window_size=100, n_channels=X_train.shape[2])
+# model = LSTMAutoencoder(window_size=100, n_channels=X_train.shape[2])
+model = ConvLSTMAutoencoder(window_size=100, n_channels=X_train.shape[2])
 print("Model zbudowany")
 print("Podsumowanie modelu:")
 model.summary()
