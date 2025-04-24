@@ -52,8 +52,26 @@ plt.grid(True)
 plt.show()
 
 # === METRYKI DLA X_TRAIN ===
-y_train_eval = y_train[WINDOW_SIZE:]  # wyrównanie z błędami
-y_pred_train = detector.detect_anomalies(errors_train, threshold)[WINDOW_SIZE:]
+# Sprawdź i wyrównaj długości danych
+print(f"Długość errors_train: {len(errors_train)}")
+print(f"Długość y_train: {len(y_train)}")
+
+# Przygotowanie danych do ewaluacji
+y_train_eval = y_train[WINDOW_SIZE:]  # Usuń pierwsze WINDOW_SIZE próbek
+y_pred_train = detector.detect_anomalies(errors_train, threshold)
+
+# Sprawdź, czy długości są zgodne
+if len(y_train_eval) != len(y_pred_train):
+    print(f"⚠️ Niezgodność długości: y_train_eval: {len(y_train_eval)}, y_pred_train: {len(y_pred_train)}")
+    
+    # Dostosuj długości, jeśli trzeba
+    min_len = min(len(y_train_eval), len(y_pred_train))
+    y_train_eval = y_train_eval[:min_len]
+    y_pred_train = y_pred_train[:min_len]
+    print(f"📏 Przycinam dane do wspólnej długości: {min_len}")
+
+# Sprawdź ponownie
+print(f"Po wyrównaniu: długość y_train_eval: {len(y_train_eval)}, długość y_pred_train: {len(y_pred_train)}")
 
 precision = precision_score(y_train_eval, y_pred_train)
 recall = recall_score(y_train_eval, y_pred_train)
